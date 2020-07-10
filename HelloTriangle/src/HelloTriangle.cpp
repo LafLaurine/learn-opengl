@@ -59,7 +59,7 @@ int main()
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
     glBindVertexArray(0);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // render loop
     while (!glfwWindowShouldClose(window))
@@ -69,7 +69,17 @@ int main()
 
         // render
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        // clear the colorbuffer
         glClear(GL_COLOR_BUFFER_BIT);
+
+        // retrieve the running time in seconds 
+        float timeValue = glfwGetTime();
+        // vary the color in the range of 0.0 - 1.0 by using the sin function
+        float greenValue = sin(timeValue) / 2.0f + 0.5f;
+        // get location of "ourColor" uniform
+        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+        // update the uniform color
+        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
         // draw our first triangle
         glUseProgram(shaderProgram);
